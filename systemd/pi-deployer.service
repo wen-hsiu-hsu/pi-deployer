@@ -5,11 +5,11 @@ Wants=docker.service
 
 [Service]
 Type=simple
-User=pi
-Group=pi
-WorkingDirectory=/home/pi/pi-deployer
-EnvironmentFile=/home/pi/pi-deployer/.env
-ExecStart=/usr/bin/python3 /home/pi/pi-deployer/deployer.py
+User=pie
+Group=pie
+WorkingDirectory=/home/pie/pi-deployer
+EnvironmentFile=/home/pie/pi-deployer/.env
+ExecStart=/home/pie/pi-deployer/venv/bin/python /home/pie/pi-deployer/deployer.py
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 RestartSec=10

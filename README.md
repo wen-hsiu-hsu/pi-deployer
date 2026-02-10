@@ -11,7 +11,9 @@ Raspberry Pi 通用 webhook 部署服務。所有 Git 專案共用一個 endpoin
 ```bash
 # 安裝
 git clone <repo-url> ~/pi-deployer && cd ~/pi-deployer
-pip3 install -r requirements.txt
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
 # 設定
 cp .env.example .env
@@ -253,6 +255,7 @@ curl -X POST http://localhost:5000/deploy/glance \
 ```bash
 sudo cp systemd/pi-deployer.service /etc/systemd/system/
 # 依實際路徑和使用者編輯 service 檔案
+# 確認 ExecStart 指向 venv 內的 python，例如 /home/pi/pi-deployer/venv/bin/python
 sudo systemctl daemon-reload
 sudo systemctl enable --now pi-deployer
 
