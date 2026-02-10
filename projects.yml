@@ -1,0 +1,40 @@
+# Pi-Deployer Projects Configuration
+#
+# defaults: applied to all projects unless overridden
+# projects: list of projects to manage
+
+defaults:
+  branch: main
+  deploy_mode: docker-compose
+  timeout: 300
+  health_check:
+    enabled: false
+    retries: 3
+    interval: 5
+
+projects:
+  - name: glance
+    repo: wenxiuxu/glance
+    path: /home/pi/glance
+    branch: main
+    deploy_mode: docker-compose
+    # webhook_secret: override-per-project-if-needed
+    health_check:
+      enabled: true
+      url: http://localhost:8080
+      retries: 5
+      interval: 3
+
+  - name: my-api
+    repo: wenxiuxu/my-api
+    path: /home/pi/my-api
+    deploy_mode: systemd
+    service_name: my-api
+    health_check:
+      enabled: true
+      url: http://localhost:3000/health
+
+  - name: homepage
+    repo: wenxiuxu/homepage
+    path: /home/pi/homepage
+    deploy_mode: pull-only
