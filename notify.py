@@ -47,10 +47,10 @@ def send_notification(event_type, project, commit_info=None, details=None):
 
 def _format_message(event_type, project, commit_info, details):
     icons = {
-        "triggered": "[DEPLOY]",
-        "success": "[OK]",
-        "failed": "[FAIL]",
-        "timeout": "[TIMEOUT]",
+        "triggered": "[⏳ DEPLOY]",
+        "success": "[✅ OK]",
+        "failed": "[⛔️ FAIL]",
+        "timeout": "[⚠️ TIMEOUT]",
     }
     icon = icons.get(event_type, "[INFO]")
     project_name = project.get("name", "unknown")
