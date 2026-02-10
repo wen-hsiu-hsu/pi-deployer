@@ -14,9 +14,9 @@ defaults:
 
 projects:
     - name: Dashboard service (Glance & Homepage)
-      repo: wenxiuxu/glance
-      path: /home/pi/glance
-      branch: main
+      repo: your-github-user/my-dashboard
+      path: /home/your-user/my-dashboard
+      branch: pi
       deploy_mode: docker-compose
       # webhook_secret: override-per-project-if-needed
       health_check:
@@ -25,17 +25,17 @@ projects:
           retries: 5
           interval: 3
 
-    - name: my-api
-      repo: wenxiuxu/my-api
-      path: /home/pi/my-api
-      deploy_mode: systemd
-      service_name: my-api
-      health_check:
-          enabled: true
-          url: http://localhost:3000/health
+    # - name: my-api
+    #   repo: wenxiuxu/my-api
+    #   path: /home/pi/my-api
+    #   deploy_mode: systemd
+    #   service_name: my-api
+    #   health_check:
+    #       enabled: true
+    #       url: http://localhost:3000/health
 
-    - name: homepage
-      repo: wenxiuxu/homepage
-      path: /home/pi/homepage
-      deploy_mode: pull-only
+    # - name: homepage
+    #   repo: wenxiuxu/homepage
+    #   path: /home/pi/homepage
+    #   deploy_mode: pull-only
 
