@@ -61,7 +61,7 @@ def run_deploy(project, commit_info=None):
             )
             output_lines.append(result)
             result = _run_cmd(
-                ["docker", "compose", "up", "-d"],
+                ["docker", "compose", "up", "-d", "--build"],
                 env=env, timeout=timeout, cwd=repo_dir,
             )
             output_lines.append(result)

@@ -108,7 +108,7 @@ projects:
     name: "Homepage"
     repo_dir: /home/pie/homepage
     # 沒有指定 deploy_script 時，使用內建的預設部署流程：
-    #   git pull --> docker compose down --> docker compose up -d
+    #   git pull --> docker compose down --> docker compose up -d --build
     branch: main
     deploy_mode: docker-compose   # 見「部署模式」章節
 ```
@@ -143,7 +143,7 @@ projects:
 
 | 模式 | 動作 |
 |------|------|
-| `docker-compose` | `git pull` -> `docker compose down` -> `docker compose up -d` -> health check |
+| `docker-compose` | `git pull` -> `docker compose down` -> `docker compose up -d --build` -> health check |
 | `systemd` | `git pull` -> `sudo systemctl restart <service_name>` -> health check |
 | `script-only` | 只執行 `deploy_script`，不做任何預設動作 |
 | `pull-only` | 只做 `git pull`，適用於靜態網站等不需要重啟的專案 |
