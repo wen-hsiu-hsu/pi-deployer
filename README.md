@@ -198,7 +198,7 @@ projects:
 
 | 模式 | 執行步驟 |
 |------|---------|
-| `docker-compose` | git pull → docker compose down → docker compose up -d |
+| `docker-compose` | git pull → docker compose down → docker compose up -d --build |
 | `systemd` | git pull → sudo systemctl restart \<service_name\> |
 | `pull-only` | git pull（適用於靜態網站） |
 | `script-only` | 只執行 `deploy_script`，不做 git pull |
