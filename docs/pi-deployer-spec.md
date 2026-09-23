@@ -500,7 +500,7 @@ ingress:
 
 ## GitHub Webhook 設定
 
-所有專案共用同一個 webhook URL：`https://p-webhook.hsiu.soy/deploy`
+所有專案共用同一個 webhook URL：`https://p-webhook.hsiu.soy/deploy`——但「URL 共用」不等於「設定共用」。每一個要自動部署的 repo，都必須各自新增一條 webhook 指向這個 URL；沒有 organization-level webhook，pi-deployer 也不會主動輪詢或掃描 repo，漏設定 webhook 的 repo 不會自動部署。
 
 在每個 GitHub repo 的 **Settings -> Webhooks -> Add webhook**：
 
@@ -511,7 +511,7 @@ ingress:
 | Secret | 與 `GITHUB_WEBHOOK_SECRET` 或該專案的 `webhook_secret` 一致 |
 | Events | Just the push event |
 
-pi-deployer 會根據 payload 自動分辨是哪個 repo，不需要為每個專案設定不同的 URL。
+pi-deployer 會根據 payload 自動分辨是哪個 repo，所以每個專案填的 Payload URL 都相同、不用各自取不同網址——但這條 webhook 本身，仍要在每個 repo 各自新增一次。
 
 ---
 
@@ -546,10 +546,14 @@ sudo systemctl start pi-deployer
 curl http://localhost:5000/health
 ```
 
-### Phase 2：切換 webhook（一行改動）
+### Phase 2：切換後端服務（GitHub 端不用重新設定）
+
+glance repo 在使用舊的 `webhook-server.py` / `glance-webhook.service` 時，GitHub 上早就已經設定過一條 webhook，指向 `p-webhook.hsiu.soy`。這裡的「不需要改」單純是指：**這條既有 webhook** 不用去 GitHub 改，因為 hostname、port、Payload URL 全部沿用不變，只是 Cloudflare Tunnel 後面接的服務從 `glance-webhook.service` 換成 `pi-deployer`。
+
+這不代表「以後新專案不用設定 webhook」——那是既有 repo 才適用的特例，新專案一律要照 Phase 4 的步驟自己去 GitHub 加一條。
 
 ```bash
-# 不需要改 GitHub webhook URL（同一個 hostname + port）
+# glance 這個 repo 的 webhook 沿用既有設定，GitHub 端不用動
 # 只需要停掉舊服務，啟動新服務
 
 # 停止舊的 glance-webhook service
@@ -580,7 +584,8 @@ sudo systemctl status pi-deployer
 curl -X POST https://p-webhook.hsiu.soy/reload \
   -H "Authorization: Bearer YOUR_SECRET"
 
-# 在新專案的 GitHub repo 加上 webhook（同一個 URL）
+# 每個新專案都要各自在自己的 GitHub repo 加一條 webhook
+# （URL 跟其他專案相同，但這個新增動作不能省略）
 ```
 
 ---

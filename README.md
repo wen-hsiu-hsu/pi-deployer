@@ -1,10 +1,12 @@
 # pi-deployer
 
-Raspberry Pi 通用 webhook 部署服務。所有 Git 專案共用一個 endpoint，透過 `projects.yml` 管理。
+Raspberry Pi 通用 webhook 部署服務。所有 Git 專案共用同一個 `/deploy` endpoint URL，透過 `projects.yml` 管理。
+
+**注意**：「共用同一個 URL」只代表 GitHub 端要填的 Payload URL 相同，**不代表 webhook 只要設定一次**。每個要自動部署的 repo，仍必須各自到該 repo 的 GitHub Settings → Webhooks 新增一條指向這個 URL 的 webhook（見「新增專案」步驟 4）。pi-deployer 完全被動：沒有 organization-level webhook，也沒有輪詢或排程機制，收不到 webhook 的 repo 就不會自動部署。
 
 ## 為什麼需要這個
 
-原本每個 Pi 上的專案各自帶一份 webhook server（例如 glance 內建的 `webhook-server.py`），路徑、branch、部署指令全部硬編碼。新增專案就要複製一份 server。pi-deployer 將部署邏輯抽離為獨立服務，一個 webhook URL 服務所有專案。
+原本每個 Pi 上的專案各自帶一份 webhook server（例如 glance 內建的 `webhook-server.py`），路徑、branch、部署指令全部硬編碼。新增專案就要複製一份 server。pi-deployer 將部署邏輯抽離為獨立服務，讓所有專案共用同一份 server 邏輯與同一個 URL——但 GitHub 端的 webhook 設定，每個專案還是要自己做一次。
 
 ## 快速開始
 
@@ -80,7 +82,7 @@ curl -X POST http://localhost:5000/reload \
 sudo systemctl reload pi-deployer
 ```
 
-### 4. 在 GitHub 設定 webhook
+### 4. 在 GitHub 設定 webhook（每個 repo 都要做，不可省略）
 
 到 `github.com/wenxiuxu/my-blog` → Settings → Webhooks → Add webhook：
 
@@ -270,7 +272,7 @@ systemd 的 `ExecReload` 設定為發送 SIGHUP，pi-deployer 收到 SIGHUP 後�
 
 ## GitHub Webhook 設定
 
-所有專案使用同一個 webhook URL。在每個 GitHub repo 的 Settings → Webhooks：
+所有專案共用同一個 webhook URL——但這是指 URL 相同，webhook 本身仍要在每個 repo 各自新增一條，沒有一次設定、全部生效的機制。在每個 GitHub repo 的 Settings → Webhooks：
 
 | 欄位 | 值 |
 |------|------|
