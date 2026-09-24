@@ -193,6 +193,7 @@ projects:
 | `webhook_secret` | 否 | 專案級 webhook secret，覆蓋全域 `GITHUB_WEBHOOK_SECRET` |
 | `health_check.enabled` | 否 | 是否啟用健康檢查 |
 | `health_check.url` | 否 | 健康檢查 URL |
+| `health_check.initial_delay` | 否 | 第一次檢查前的等待秒數，預設 0（部署完立刻檢查）。`docker compose up -d` 指令成功不代表容器內的 app 已經在監聽 port，若 app 冷啟動較慢，建議設定這個欄位避免誤判失敗 |
 | `health_check.retries` | 否 | 重試次數，預設 3 |
 | `health_check.interval` | 否 | 重試間隔秒數，預設 5 |
 
