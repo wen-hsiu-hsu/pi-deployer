@@ -33,6 +33,7 @@ projects:
       health_check:
           enabled: true
           url: http://localhost:3003/health
+          initial_delay: 15
           retries: 5
           interval: 3
 

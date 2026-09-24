@@ -89,6 +89,7 @@ def run_deploy(project, commit_info=None):
                 url=hc["url"],
                 retries=hc.get("retries", 3),
                 interval=hc.get("interval", 5),
+                initial_delay=hc.get("initial_delay", 0),
             )
             if not healthy:
                 raise RuntimeError(f"Health check failed: {hc['url']}")

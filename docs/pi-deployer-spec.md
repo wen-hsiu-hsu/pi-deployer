@@ -131,6 +131,7 @@ projects:
 | `webhook_secret` | 專案 | 否 | 該專案專用的 webhook secret，覆蓋全域 |
 | `health_check` | 專案 | 否 | 健康檢查設定 |
 | `health_check.urls` | 專案 | 否 | 健康檢查 URL 列表 |
+| `health_check.initial_delay` | 專案 | 否 | 第一次檢查前的等待秒數，預設 0。`docker compose up -d` 回傳成功不代表容器內的 app 已經在監聽 port，app 冷啟動較慢時應設定，避免部署明明成功卻被誤判失敗 |
 | `health_check.retries` | 專案 | 否 | 重試次數，預設 5 |
 | `health_check.interval` | 專案 | 否 | 重試間隔秒數，預設 5 |
 | `env_file` | 專案 | 否 | 部署腳本的額外環境變數檔案路徑 |
