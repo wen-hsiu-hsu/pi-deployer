@@ -13,7 +13,7 @@ defaults:
         interval: 5
 
 projects:
-    - name: Dashboard service (Glance & Homepage)
+    - name: dashboard-service
       repo: your-github-user/my-dashboard
       path: /home/your-user/my-dashboard
       branch: pi
@@ -22,6 +22,17 @@ projects:
       health_check:
           enabled: true
           url: http://localhost:8080
+          retries: 5
+          interval: 3
+
+    - name: my-bot
+      repo: your-github-user/my-bot
+      path: /home/your-user/docker/my-bot
+      deploy_mode: docker-compose
+      timeout: 600
+      health_check:
+          enabled: true
+          url: http://localhost:3000/health
           retries: 5
           interval: 3
 
