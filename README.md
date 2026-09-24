@@ -139,6 +139,7 @@ curl -H "Authorization: Bearer YOUR_DEPLOY_TOKEN" \
 | `PROJECTS_CONFIG` | 否 | 設定檔路徑，預設 `./projects.yml` |
 | `FLASK_HOST` | 否 | 監聽位址，預設 `0.0.0.0` |
 | `FLASK_PORT` | 否 | 監聽 port，預設 `5000` |
+| `FLASK_DEBUG` | 否 | 是否啟用 Flask debug 模式，預設 `false` |
 | `LOG_DIR` | 否 | 部署 log 目錄，預設 `./logs` |
 
 ### 專案設定 (`projects.yml`)
