@@ -40,7 +40,7 @@ def run_deploy(project, commit_info=None):
 
     try:
         # Step 1: git pull (always, unless script-only)
-        if deploy_mode != "script-only" and not deploy_script:
+        if deploy_mode != "script-only":
             result = _run_cmd(
                 ["git", "-C", repo_dir, "pull", "--ff-only"],
                 env=env, timeout=timeout,

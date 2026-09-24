@@ -20,6 +20,8 @@ echo "Branch: ${DEPLOYER_BRANCH}"
 cd "${DEPLOYER_REPO_DIR}"
 
 # Step 1: Pull latest changes
+# NOTE: pi-deployer already runs this for you unless deploy_mode is
+# script-only. Keep this line only if you're using deploy_mode: script-only.
 echo "--- git pull ---"
 git pull --ff-only
 
