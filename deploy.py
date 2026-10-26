@@ -72,14 +72,7 @@ def run_deploy(project, commit_info=None):
                 env=env, timeout=timeout,
             )
             output_lines.append(result)
-        elif deploy_mode == "script-only":
-            script = project.get("deploy_script", "")
-            if script:
-                result = _run_cmd(
-                    ["bash", script],
-                    env=env, timeout=timeout, cwd=repo_dir,
-                )
-                output_lines.append(result)
+        # script-only: handled by deploy_script above (config requires it)
         # pull-only: git pull already done above
 
         # Step 3: health check

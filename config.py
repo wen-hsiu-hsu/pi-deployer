@@ -39,6 +39,8 @@ def load_config(path=None):
 
     for project in projects:
         merged = _merge_defaults(defaults, project)
+        if merged.get("deploy_mode") == "script-only" and not merged.get("deploy_script"):
+            raise ValueError(f"Project {merged.get('name')}: deploy_mode script-only requires deploy_script")
         merged_projects.append(merged)
         repo = merged.get("repo", "")
         by_repo[repo] = merged
