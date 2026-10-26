@@ -1,5 +1,8 @@
 # Pi-Deployer Projects Configuration
 #
+# Copy this file to projects.yml (gitignored) and edit it:
+#   cp projects.example.yml projects.yml
+#
 # defaults: applied to all projects unless overridden
 # projects: list of projects to manage
 
@@ -13,10 +16,9 @@ defaults:
         interval: 5
 
 projects:
-    - name: dashboard-service
+    - name: my-dashboard
       repo: your-github-user/my-dashboard
       path: /home/your-user/my-dashboard
-      branch: pi
       deploy_mode: docker-compose
       # webhook_secret: override-per-project-if-needed
       health_check:
@@ -38,8 +40,8 @@ projects:
           interval: 3
 
     # - name: my-api
-    #   repo: wenxiuxu/my-api
-    #   path: /home/pi/my-api
+    #   repo: your-github-user/my-api
+    #   path: /home/your-user/my-api
     #   deploy_mode: systemd
     #   service_name: my-api
     #   health_check:
@@ -47,7 +49,6 @@ projects:
     #       url: http://localhost:3000/health
 
     # - name: homepage
-    #   repo: wenxiuxu/homepage
-    #   path: /home/pi/homepage
+    #   repo: your-github-user/homepage
+    #   path: /home/your-user/homepage
     #   deploy_mode: pull-only
-

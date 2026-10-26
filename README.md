@@ -20,7 +20,8 @@ pip install -r requirements.txt
 # 設定
 cp .env.example .env
 # 編輯 .env，至少填入 GITHUB_WEBHOOK_SECRET 和 DEPLOY_TOKEN
-# 編輯 projects.yml，加入你的專案
+cp projects.example.yml projects.yml
+# 編輯 projects.yml，加入你的專案（此檔已 gitignore，不會進版控）
 
 # 啟動
 python3 deployer.py
@@ -108,7 +109,8 @@ curl -X POST http://localhost:5000/deploy/my-blog \
 確認結果：
 
 ```bash
-curl http://localhost:5000/status
+curl -H "Authorization: Bearer YOUR_DEPLOY_TOKEN" \
+  http://localhost:5000/status
 curl -H "Authorization: Bearer YOUR_DEPLOY_TOKEN" \
   http://localhost:5000/logs/my-blog
 ```
@@ -249,16 +251,16 @@ curl -X POST http://localhost:5000/deploy/glance \
 | 方法 | 路徑 | 認證 | 說明 |
 |------|------|------|------|
 | GET | `/health` | 無 | 伺服器狀態（uptime、專案數） |
-| GET | `/status` | 無 | 所有專案部署狀態總覽 |
+| GET | `/status` | Bearer | 所有專案部署狀態總覽 |
 | GET | `/logs/<name>` | Bearer | 該專案最近 50 行部署 log |
-| GET | `/config` | 無 | 目前設定（secret 自動遮蔽） |
+| GET | `/config` | Bearer | 目前設定（secret 自動遮蔽） |
 | POST | `/reload` | Bearer | 熱重載 `projects.yml` |
 
 ## systemd 部署
 
 ```bash
 sudo cp systemd/pi-deployer.service /etc/systemd/system/
-# 依實際路徑和使用者編輯 service 檔案
+# 把 service 檔案中的 your-user 換成實際使用者與路徑
 # 確認 ExecStart 指向 venv 內的 python，例如 /home/pi/pi-deployer/venv/bin/python
 sudo systemctl daemon-reload
 sudo systemctl enable --now pi-deployer
@@ -410,7 +412,7 @@ pi-deployer/
 ├── verify.py            # HMAC-SHA256 + Bearer token 驗證
 ├── notify.py            # Telegram 通知
 ├── health.py            # HTTP 健康檢查（帶重試）
-├── projects.yml         # 專案設定檔
+├── projects.example.yml # 專案設定檔範本（複製為 projects.yml 使用）
 ├── .env.example         # 環境變數範本
 ├── requirements.txt     # Python 依賴
 ├── scripts/

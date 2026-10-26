@@ -27,3 +27,6 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# Real project config (lives only on the Pi)
+projects.yml

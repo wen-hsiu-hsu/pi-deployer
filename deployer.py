@@ -208,7 +208,12 @@ def health():
 
 @app.route("/status", methods=["GET"])
 def status():
-    """Status overview of all projects."""
+    """Status overview of all projects (requires Bearer token)."""
+    token = os.environ.get("DEPLOY_TOKEN", "")
+    auth = request.headers.get("Authorization", "")
+    if not verify_bearer_token(auth, token):
+        return jsonify({"error": "Unauthorized"}), 401
+
     projects = []
     for p in get_all_projects():
         name = p["name"]
@@ -264,7 +269,12 @@ def logs(project_key):
 
 @app.route("/config", methods=["GET"])
 def config_endpoint():
-    """Return current config with secrets masked."""
+    """Return current config with secrets masked (requires Bearer token)."""
+    token = os.environ.get("DEPLOY_TOKEN", "")
+    auth = request.headers.get("Authorization", "")
+    if not verify_bearer_token(auth, token):
+        return jsonify({"error": "Unauthorized"}), 401
+
     cfg = get_config()
     return jsonify(mask_secrets({
         "defaults": cfg["defaults"],
